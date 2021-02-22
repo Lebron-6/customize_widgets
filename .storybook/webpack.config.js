@@ -1,4 +1,4 @@
-const { request } = require("http");
+const { request } = require("http")
 
 module.exports = ({ config }) => {
   config.module.rules.push({
@@ -23,9 +23,9 @@ module.exports = ({ config }) => {
         }
       }
     ]
-  });
+  })
 
-  config.resolve.extensions.push(".ts", ".tsx");
+  config.resolve.extensions.push(".ts", ".tsx")
 
-  return config;
-};
+  return config
+}

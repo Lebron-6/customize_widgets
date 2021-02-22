@@ -3,74 +3,83 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { AutoComplete, DataSourceType } from './autoComplete'
 
-interface LakerPlayerProps {
-    value: string
-    number: number
-}
+// interface LakersProps {
+//   name: string
+//   number: number
+// }
 
-interface GithubUserProps{
-    login:string
-    url:string
-    avatar_url:string
+interface GithubUserProps {
+  login: string
+  url: string
+  avatar_url: string
 }
 
 const SimpleComplete = () => {
-    const lakers = ['bradley', 'pope', 'caruso', 'cook', 'cousins', 'james', 'AD', 'green', 'howard', 'kuzma', 'McGee', 'rando']
-    const lakersWithNumber = [
-        { value: 'bradley', number: 11 },
-        { value: 'pope', number: 1 },
-        { value: 'caruso', number: 4 },
-        { value: 'cook', number: 28 },
-        { value: 'cousins', number: 15 },
-        { value: 'james', number: 23 },
-        { value: 'AD', number: 3 },
-        { value: 'green', number: 14 },
-        { value: 'howard', number: 39 },
-        { value: 'kuzma', number: 0 }
-    ]
-    // const handleFetch = (query: string) => {
-    //     return lakers.filter(name => name.includes(query)).map(name => ({value:name}))
-    // }
+  /**
+   * 例题1：简单数据类型
+  */
+  // const lakers = ['詹姆斯', '戴维斯', '施罗德', '小枷锁', '波普', '库兹马', '莫里斯', '卡鲁索', '马修斯', '哈雷尔']
 
-    const handleFetch = (query: string) => {
-        return fetch(`https://api.github.com/search/users?q=${query}`)
-            .then(res => res.json())
-            .then(({ items }) => {
-                console.log(items)
-                return items.slice(0, 10).map(item => ({ value: item.login, ...item }))
-            })
-    }
+  /**
+   * 例题2：复杂数据类型
+  */
+  // const lakers = [
+  //   {name: '詹姆斯', number: 23},
+  //   {name: '戴维斯', number: 3},
+  //   {name: '施罗德', number: 17},
+  //   {name: '小枷锁', number: 14},
+  //   {name: '波普', number: 1},
+  //   {name: '库兹马', number: 0},
+  //   {name: '马修斯', number: 9},
+  //   {name: '哈雷尔', number: 15},
+  //   {name: '卡鲁索', number: 4}
+  // ]
 
-    // const handleFetch = (query: string) => {
-    //     return lakersWithNumber.filter(player => player.value.includes(query))
-    // }
+  // const handleFetch = (query: string) => {
+  //   return lakers.filter(name => name.includes(query)).map(name => ({value: name}))
+  // }
 
-    // const renderOption = (item: DataSourceType<LakerPlayerProps>) => {
-    //     return (
-    //         <>
-    //             <p>Name:{item.value}</p>
-    //             <p>Number:{item.number}</p>
-    //         </>
-    //     )
-    // }
+  // const handleFetch = (query: string) => {
+  //   return lakers.filter(player => player.name.includes(query))
+  // }
 
-    const renderOption = (item: DataSourceType<GithubUserProps>) => {
-        return (
-            <>
-                <p>Name:{item.login}</p>
-                <p>url:{item.url}</p>
-            </>
-        )
-    }
+  /**
+   * 例题3：异步请求
+  */
+  const handleFetch = (query: string) => {
+    return fetch(`https://api.github.com/search/users?q=${query}`)
+      .then(res => res.json())
+      .then(({items}) => {
+        return items.slice(0, 10).map((item: any) => ({ value: item.login, ...item}))
+      })
+  }
 
-    return (
-        <AutoComplete
-            fetchSuggestions={handleFetch}
-            onSelect={action('selected')}
-            renderOption={renderOption}
-        />
-    )
+  // const renderOption = (item: DataSourceType<LakersProps>) => {
+  //   return (
+  //     <>
+  //       <span>Name: {item.name}</span>
+  //       <span>No: {item.number}</span>
+  //     </>
+  //   )
+  // }
+
+  // const renderOption = (item: DataSourceType<GithubUserProps>) => {
+  //   return (
+  //     <>
+  //       <div>Name: {item.login}</div>
+  //       <p>URL: {item.url}</p>
+  //     </>
+  //   )
+  // }
+
+  return (
+    <AutoComplete
+      fetchSuggestions={handleFetch}
+      onSelect={action('selected')}
+      // renderOption={renderOption}
+    />
+  )
 }
 
 storiesOf('AutoComplete Component', module)
-    .add('AutoComplete', SimpleComplete)
+  .add('AutoComplete', SimpleComplete)
